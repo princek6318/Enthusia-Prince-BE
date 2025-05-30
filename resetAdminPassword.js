@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Admin = require('./models/Admin');
 require('dotenv').config();
 
-mongoose.connect('mongodb://localhost:27017/blogdb')
+mongoose.connect('mongodb+srv://kkdprince6318:admin123@cluster0.wzu9grl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
