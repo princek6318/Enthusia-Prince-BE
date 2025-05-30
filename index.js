@@ -9,7 +9,7 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: '*', // Allow both localhost and IP
+  origin: ['http://localhost:3000', 'https://enthusia-prince.vercel.app'], // Allow both localhost and IP
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
