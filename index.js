@@ -8,11 +8,7 @@ require('dotenv').config();
 const app = express();
 
 // Enable CORS for all routes
-app.use(cors({
-  origin: ['http://localhost:3000', 'https://enthusia-prince.vercel.app'], // Allow both localhost and IP
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
 
 app.use(express.json());
 
