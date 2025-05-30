@@ -1,10 +1,10 @@
 {
-  "name": "taske",
+  "name": "task",
   "version": "1.0.0",
-  "main": "Index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "nodemon Index.js",
-    "start": "node Index.js"
+    "test": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "mongoose": "^8.15.1",
     "multer": "^2.0.0",
     "nodemon": "^3.1.10",
+    "task": "file:",
     "taske": "file:"
   }
 }
