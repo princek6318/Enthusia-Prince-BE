@@ -5,4 +5,4 @@ const adminSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
-module.exports = mongoose.model('Admin', adminSchema, 'admins'); // Explicitly use "admins" collection
+module.exports = mongoose.model('Admin', adminSchema, 'admins');

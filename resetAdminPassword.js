@@ -9,7 +9,7 @@ mongoose.connect('mongodb+srv://kkdprince6318:admin123@cluster0.wzu9grl.mongodb.
 
 (async () => {
   try {
-    const newPassword = 'admin123'; // Change this to your desired password
+    const newPassword = 'admin123'; 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     
     const result = await Admin.updateOne(

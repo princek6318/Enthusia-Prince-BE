@@ -2,7 +2,6 @@ const Blog = require('../models/Blog');
 const fs = require('fs');
 const path = require('path');
 
-// Get all blogs
 exports.getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ createdAt: -1 });
@@ -23,7 +22,6 @@ exports.getAllBlogs = async (req, res) => {
   }
 };
 
-// Get blog by ID
 exports.getBlogById = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -48,12 +46,10 @@ exports.getBlogById = async (req, res) => {
   }
 };
 
-// Create new blog
 exports.createBlog = async (req, res) => {
   try {
     console.log('Create blog request received:', req.body);
     
-    // Check if media file was uploaded
     if (req.file) {
       console.log('File uploaded:', req.file);
       req.body.mediaPath = req.file.path.replace(/\\/g, '/');
@@ -76,21 +72,17 @@ exports.createBlog = async (req, res) => {
   }
 };
 
-// Update blog
 exports.updateBlog = async (req, res) => {
   try {
     console.log('Update blog request received for ID:', req.params.id);
     console.log('Update data:', req.body);
     
-    // Check if media file was uploaded
     if (req.file) {
       console.log('New file uploaded:', req.file);
       req.body.mediaPath = req.file.path.replace(/\\/g, '/');
       
-      // Find the old blog to get its media path
       const oldBlog = await Blog.findById(req.params.id);
       if (oldBlog && oldBlog.mediaPath) {
-        // Delete the old file if it exists
         const oldFilePath = path.join(__dirname, '..', oldBlog.mediaPath);
         if (fs.existsSync(oldFilePath)) {
           fs.unlinkSync(oldFilePath);
@@ -128,7 +120,6 @@ exports.updateBlog = async (req, res) => {
   }
 };
 
-// Delete blog
 exports.deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findByIdAndDelete(req.params.id);
@@ -153,7 +144,6 @@ exports.deleteBlog = async (req, res) => {
   }
 };
 
-// Add this function to your existing controller
 exports.likeBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -165,7 +155,6 @@ exports.likeBlog = async (req, res) => {
       });
     }
     
-    // Increment the likes count
     blog.likes = (blog.likes || 0) + 1;
     await blog.save();
     
@@ -184,7 +173,6 @@ exports.likeBlog = async (req, res) => {
   }
 };
 
-// Add comment to blog
 exports.addComment = async (req, res) => {
   try {
     const { name, email, content } = req.body;
@@ -205,7 +193,6 @@ exports.addComment = async (req, res) => {
       });
     }
     
-    // Add the comment to the blog
     blog.comments.push({ name, email, content });
     await blog.save();
     
@@ -224,7 +211,6 @@ exports.addComment = async (req, res) => {
   }
 };
 
-// Get all comments for a blog
 exports.getComments = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);

@@ -17,9 +17,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ 
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: function(req, file, cb) {
-    // Accept images and videos only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif|mp4|webm|mov)$/)) {
       return cb(new Error('Only image and video files are allowed!'), false);
     }
@@ -27,16 +26,13 @@ const upload = multer({
   }
 });
 
-// Public routes (no authentication required)
 router.get('/', blogController.getAllBlogs);
 router.get('/:id', blogController.getBlogById);
 router.post('/:id/like', blogController.likeBlog);
 
-// Comment routes
 router.get('/:id/comments', blogController.getComments);
 router.post('/:id/comments', blogController.addComment);
 
-// Admin routes (authentication required)
 router.post('/', authenticateToken, upload.single('media'), blogController.createBlog);
 router.put('/:id', authenticateToken, upload.single('media'), blogController.updateBlog);
 router.delete('/:id', authenticateToken, blogController.deleteBlog);
