@@ -57,7 +57,11 @@ const blogSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  media: {
+    data: Buffer,
+    contentType: String,
+  },
 });
 
 const Blog = mongoose.model('Blog', blogSchema);

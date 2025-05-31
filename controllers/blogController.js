@@ -25,50 +25,39 @@ exports.getAllBlogs = async (req, res) => {
 exports.getBlogById = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
-    
-    if (!blog) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Blog not found'
-      });
+
+    if (!blog) return res.status(404).json({ error: 'Not found' });
+
+    const blogObj = blog.toObject();
+
+    if (blog.media?.data) {
+      blogObj.media = `data:${blog.media.contentType};base64,${blog.media.data.toString('base64')}`;
     }
-    
-    return res.status(200).json({
-      status: 'success',
-      data: blog
-    });
+
+    res.json(blogObj);
   } catch (err) {
-    console.error('Error in getBlogById:', err);
-    return res.status(500).json({
-      status: 'error',
-      message: 'Server error while fetching blog'
-    });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
+
+
 exports.createBlog = async (req, res) => {
   try {
-    console.log('Create blog request received:', req.body);
-    
-    if (req.file) {
-      console.log('File uploaded:', req.file);
-      req.body.mediaPath = req.file.path.replace(/\\/g, '/');
-    }
-    
-    const newBlog = await Blog.create(req.body);
-    console.log('Blog created successfully:', newBlog);
-    
-    return res.status(201).json({
-      status: 'success',
-      data: newBlog
+    const newBlog = new Blog({
+      title: req.body.title,
+      description: req.body.description,
+      media: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      },
     });
+
+    await newBlog.save();
+    res.status(201).json({ message: 'Blog created successfully', blog: newBlog });
   } catch (err) {
-    console.error('Error in createBlog:', err);
-    return res.status(500).json({
-      status: 'error',
-      message: 'Server error while creating blog',
-      error: err.message
-    });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create blog' });
   }
 };
 
